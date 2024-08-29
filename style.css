@@ -1,0 +1,108 @@
+*, *::before, *::after {
+    padding: 0; margin: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    background-color: #333;
+}
+
+main {
+    display: grid;
+    outline: 1px solid red;
+    min-height: 100svh;
+}
+main ul {
+    width: min(50rem, 95%);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+}
+main ul li {
+    border: 1px solid #dedede;
+    list-style: none;
+
+    background-color: #1d481d;
+    position: relative;
+
+    transition: 0.25s;
+}
+
+main ul li:not(.card):hover {
+    opacity: 0.75;
+}
+
+li.card {
+    --look: url("./pics/normal.webp");
+}
+li.card.-insane {
+    --look: url("./pics/insane.webp")
+}
+li.card.-easy {
+    --look: url("./pics/easy.webp")
+}
+li.card.-easy2 {
+    --look: url("./pics/easy2.webp")
+}
+li.card.-medium {
+    --look: url("./pics/medium.webp")
+}
+li.card.-hard {
+    --look: url("./pics/hard.webp")
+}
+li.card.-harder {
+    --look: url("./pics/harder.webp")
+}
+li.card.-hard1 {
+    --look: url("./pics/hard1.webp")
+}
+li.card.-hard2 {
+    --look: url("./pics/hard2.webp")
+}
+li.card.-extreme {
+    --look: url("./pics/extreme.webp")
+}
+
+li.card.-team2 {
+    --back: #fc6767;
+}
+li.card.-hidden {
+    opacity: 0.5;
+}
+
+li.card::before {
+    content: var(--lifes, "0");
+    position: absolute;
+
+    inset: 5px;
+    background-color: var(--back, lightblue);
+
+    background-image: var(--look);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 75%;
+
+    border-radius: 5px;
+}
+
+li.card::after {
+    padding-inline: 0.35rem;
+    content: var(--damage, "0");
+    position: absolute;
+
+    bottom: 0.35rem; right: 0.35rem;
+
+    background-color: #333;
+    color: #fff;
+
+    border-radius: 0.5rem;
+}
+
+main ul li.-active {
+    outline: 2px solid yellow;
+    outline-offset: -2px;
+}
+main ul li.-attacked {
+    outline: 2px solid crimson;
+    outline-offset: -2px;
+}
