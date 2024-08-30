@@ -5,10 +5,31 @@ const normalBot = {
     step: 1,        //  крок на карті
 }
 
+const naBot = {
+    class: "card -na",
+    lifes: 1,       //  к-ть життів
+    damage: 0,      //  пошкодження при ударі
+    step: 1,        //  крок на карті
+}
+
+const autoBot = {
+    class: "card -auto",
+    lifes: 1,       //  к-ть життів
+    damage: 1,      //  пошкодження при ударі
+    step: 1,        //  крок на карті
+}
+
 const insaneBot = {
     class: "card -insane",
     lifes: 9,       //  к-ть життів
     damage: 8,      //  пошкодження при ударі
+    step: 1,        //  крок на карті
+}
+
+const pacificBot = {
+    class: "card -pacific",
+    lifes: 10,       //  к-ть життів
+    damage: 11,      //  пошкодження при ударі
     step: 1,        //  крок на карті
 }
 
@@ -68,15 +89,15 @@ const extremeBot = {
     step: 1,        //  крок на карті
 }
 
-const bots = [ normalBot, insaneBot, easyBot, easy2Bot, mediumBot, hardBot, harderBot, hard1Bot, hard2Bot, extremeBot ]
+const bots = [ normalBot, naBot, autoBot, insaneBot, pacificBot, easyBot, easy2Bot, mediumBot, hardBot, harderBot, hard1Bot, hard2Bot, extremeBot ]
 
 
-function init(cell, bot, team2) {
+function init(cell, bot, team) {
     if (!cell || !bot) return
 
     cell.classList = bot.class
 
-    cell.classList.toggle("-team2", team2 === true)
+    if (team) cell.classList.add(team)
 
     updateLifes(cell, bot.lifes)
     updateDamage(cell, bot.damage)
@@ -99,11 +120,11 @@ function updateDamage(card, damage) {
 }
 
 
-function giveRandomBot(bots) {
-    if (!bots?.length) return undefined
+function giveRandom(arr) {
+    if (!arr?.length) return undefined
 
-    const i = Math.floor(Math.random() * bots.length)
-    return bots[i]
+    const i = Math.floor(Math.random() * arr.length)
+    return arr[i]
 }
 
 
@@ -112,5 +133,5 @@ export {
     init,
     updateLifes,
     updateDamage,
-    giveRandomBot
+    giveRandom
 }

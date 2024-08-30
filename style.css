@@ -9,7 +9,7 @@ html, body {
 
 main {
     display: grid;
-    outline: 1px solid red;
+    grid-template-columns: 5rem 1fr;
     min-height: 100svh;
 }
 main ul {
@@ -63,7 +63,19 @@ li.card.-extreme {
     --look: url("./pics/extreme.webp")
 }
 
-li.card.-team2 {
+
+li.card.-na {
+    --look: url("./pics/na.webp")
+}
+li.card.-auto {
+    --look: url("./pics/auto.webp")
+}
+li.card.-pacific {
+    --look: url("./pics/pacific.webp")
+}
+
+
+li.card.team2 {
     --back: #fc6767;
 }
 li.card.-hidden {
@@ -98,11 +110,69 @@ li.card::after {
     border-radius: 0.5rem;
 }
 
-main ul li.-active {
-    outline: 2px solid yellow;
+.-active {
+    outline: 2px solid #f6ff00;
     outline-offset: -2px;
 }
 main ul li.-attacked {
     outline: 2px solid crimson;
     outline-offset: -2px;
+}
+
+
+main ul li.-dead::before {
+    --back: transparent;
+    --lifes: "";
+    animation: dead 850ms ease-in 150ms forwards;
+}
+main ul li.-dead::after {
+    --damage: "";
+}
+
+@keyframes dead {
+    to {
+        rotate: 720deg;
+        opacity: 0.25;
+        scale: 0;
+    }
+}
+
+
+/* Nav */
+nav {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+}
+nav input {
+    accent-color: green;
+    margin-right: 0.2rem;
+}
+nav span {
+    font-size: 0.73rem;
+    color: #ededed;
+}
+
+
+/* aside */
+aside {
+    display: grid;
+    place-content: center;
+    gap: 1.5rem;
+}
+aside .player {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: #fff;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+aside .player[data-player="human"] {
+    background-image: url("./pics/_human_player.jpeg");
+}
+aside .player[data-player="pc"] {
+    background-image: url("./pics/_pc_player.webp");
 }
