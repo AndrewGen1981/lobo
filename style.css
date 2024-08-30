@@ -172,8 +172,8 @@ aside .player {
     background-size: contain;
 }
 aside .player[data-player="human"] {
-    background-image: url("./pics/_human_player.jpeg");
+    background-image: url("./pics/human_player.jpeg");
 }
 aside .player[data-player="pc"] {
-    background-image: url("./pics/_pc_player.webp");
+    background-image: url("./pics/pc_player.webp");
 }
