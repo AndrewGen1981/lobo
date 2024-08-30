@@ -25,7 +25,6 @@ let team2 = [
 
 
 let whosMove = "team1"
-turnToMove("team1")
 
 
 

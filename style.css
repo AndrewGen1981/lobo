@@ -9,9 +9,10 @@ html, body {
 
 main {
     display: grid;
-    grid-template-columns: 5rem 1fr;
+    grid-template-columns: 7rem 1fr;
     min-height: 100svh;
 }
+
 main ul {
     width: min(50rem, 95%);
     margin-inline: auto;
