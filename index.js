@@ -23,9 +23,10 @@ let team2 = [
 ]
 
 
+elements[0].classList.add("-active")    //  highlight for 1st move
+
 
 let whosMove = "team1"
-
 
 
 elements.forEach((li, index) => {
@@ -92,7 +93,7 @@ function checkWhosMove(card) {
 
     if (team1.includes(card.dataset.name) && whosMove === "team1") {
         turnToMove("team2")
-        
+
         if (autoPlay.id === "team2")
             setTimeout(() => PCMakeMove([...document.querySelectorAll("li.card.team2")]), 1000)
 
@@ -114,36 +115,39 @@ function checkWhosMove(card) {
 }
 
 
-function move(card, toCell, step) {
-    if (!checkWhosMove(card)) return
-    if (!ifInMyArea(card, toCell, step)) return
+function move(card, dest, step) {
+    if (!isMyMove(card)) return
+    if (!ifInMyArea(card, dest, step)) return
 
-    toCell.classList = card.classList
+    dest.classList = card.classList
     
-    updateLifes(toCell, card.dataset.lifes)
+    updateLifes(dest, card.dataset.lifes)
     updateLifes(card, "")
 
-    updateDamage(toCell, card.dataset.damage)
+    updateDamage(dest, card.dataset.damage)
     updateDamage(card, "")
 
-    toCell.dataset.step = card.dataset.step
+    dest.dataset.step = card.dataset.step
     card.dataset.step = ""
 
-    toCell.dataset.name = card.dataset.name
+    dest.dataset.name = card.dataset.name
     card.dataset.name = ""
 
     card.classList = []
+
+    checkWhosMove(dest)     //  toggle move to the opponent
 }
 
 
 
 function attack(card, attacked, step) {
-    if (!checkWhosMove(card)) return
+    if (!isMyMove(card)) return
     if (!ifInMyArea(card, attacked, step)) return
     if (card === attacked) return
 
-    if (team1.includes(card) && team1.includes(attacked)) return
-    if (team2.includes(card) && team2.includes(attacked)) return
+    // cannot attack your team-mate
+    if (team1.includes(card.dataset.name) && team1.includes(attacked.dataset.name)) return
+    if (team2.includes(card.dataset.name) && team2.includes(attacked.dataset.name)) return
 
     attacked.classList.add("-attacked")
     setTimeout(() => attacked.classList.remove("-attacked"), 500)
@@ -155,24 +159,33 @@ function attack(card, attacked, step) {
 
     if (leftLifes <= 0) {
 
+        if (attacked.dataset.name?.length) {
+            team1 = team1.filter(bot => bot !== attacked.dataset.name)
+            team2 = team2.filter(bot => bot !== attacked.dataset.name)
+            attacked.dataset.name += "_dead"
+        }
+
+        updateLifes(attacked, "💀")
+        updateDamage(attacked, "")
+        attacked.dataset.step = ""
+        
         attacked.classList.add("-dead")
-        setTimeout(() => {
-            attacked.classList = ""
-            updateLifes(attacked, "💀")
-            attacked.dataset.damage = ""
-            attacked.dataset.step = ""
+        setTimeout(() => attacked.classList = [], 1000)
 
-            if (attacked.dataset.name?.length) {
-                team1 = team1.filter(bot => bot !== attacked.dataset.name)
-                team2 = team2.filter(bot => bot !== attacked.dataset.name)
-            }
-
-        }, 1000)
-
+        if (team1.length === 0) {
+            alert("Red Team Win!")
+            location.reload()
+        }
+        if (team2.length === 0) {
+            alert("Blue Team Win!")
+            location.reload()
+        }
         
     } else {
         updateLifes(attacked, leftLifes)
     }
+
+    checkWhosMove(card)     //  toggle move to the opponent
 }
 
 

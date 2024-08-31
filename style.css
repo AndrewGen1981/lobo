@@ -1,21 +1,36 @@
+@font-face {
+    font-family: "Roboto";
+    src: url("./font/Roboto-Regular.ttf");
+    font-display: swap;
+}
+@font-face {
+    font-family: "Roboto Bold";
+    src: url("./font/Roboto-Bold.ttf");
+    font-display: swap;
+}
+
+:root {
+    font-size: 15px;
+}
+
 *, *::before, *::after {
     padding: 0; margin: 0;
     box-sizing: border-box;
 }
 
 html, body {
+    font-family: "Roboto";
     background-color: #333;
 }
 
 main {
-    display: grid;
-    grid-template-columns: 7rem 1fr;
     min-height: 100svh;
+    display: flex;
+    justify-content: center;
 }
 
 main ul {
     width: min(50rem, 95%);
-    margin-inline: auto;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
 }
@@ -84,12 +99,15 @@ li.card.-hidden {
 }
 
 li.card::before {
-    content: var(--lifes, "0");
+    content: "❤️"var(--lifes, "0");
+    
     position: absolute;
-
     inset: 5px;
-    background-color: var(--back, lightblue);
 
+    font-family: "Roboto Bold";
+    font-size: 0.85rem;
+
+    background-color: var(--back, lightblue);
     background-image: var(--look);
     background-position: center;
     background-repeat: no-repeat;
@@ -99,16 +117,22 @@ li.card::before {
 }
 
 li.card::after {
-    padding-inline: 0.35rem;
-    content: var(--damage, "0");
-    position: absolute;
+    padding: 0.1rem 0.25rem;
+    min-width: 2.5rem;
 
+    content: "💀"var(--damage, "0");
+    position: absolute;
     bottom: 0.35rem; right: 0.35rem;
 
-    background-color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 0.85rem;
     color: #fff;
 
-    border-radius: 0.5rem;
+    background-color: #333;
+    border-radius: 0.75rem;
 }
 
 .-active {
@@ -123,11 +147,11 @@ main ul li.-attacked {
 
 main ul li.-dead::before {
     --back: transparent;
-    --lifes: "";
+    content: "";
     animation: dead 850ms ease-in 150ms forwards;
 }
 main ul li.-dead::after {
-    --damage: "";
+    content: "";
 }
 
 @keyframes dead {
@@ -158,6 +182,9 @@ nav span {
 
 /* aside */
 aside {
+    padding-inline: 1rem;
+    width: 8rem;
+
     display: grid;
     place-content: center;
     gap: 1.5rem;
@@ -176,4 +203,19 @@ aside .player[data-player="human"] {
 }
 aside .player[data-player="pc"] {
     background-image: url("./pics/pc_player.webp");
+}
+
+
+@media (width < 850px) {
+    :root {
+        font-size: 14px;
+    }
+}
+@media (width < 400px) {
+    :root {
+        font-size: 12px;
+    }
+    aside {
+        width: 9rem;
+    }
 }
