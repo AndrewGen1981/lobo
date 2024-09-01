@@ -220,9 +220,14 @@ aside .player[data-player="pc"] {
 }
 @media (width < 400px) {
     :root {
-        font-size: 12px;
+        font-size: 10px;
     }
     aside {
         width: 9rem;
+    }
+}
+@media (width < 300px) {
+    :root {
+        font-size: 9px;
     }
 }
