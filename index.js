@@ -40,7 +40,7 @@ elements.forEach((li, index) => {
             if (active) {
                 if (active.dataset.name !== li.dataset.name) {
                     if (ifInMyArea(active, li, 1) && isMyMove(active) ) {
-                        return attack(active, li, 1)
+                        if (attack(active, li, 1)) return
                     }
                 }
             }
@@ -135,7 +135,23 @@ function move(card, dest, step) {
 
     card.classList = []
 
+    const team =indetifyMyTeam(dest)
+    const opponentBase = team === "team1" ? "2" : "1"
+    const allMyPlayers = [...document.querySelectorAll(`li.card.${ team }`)]
+    const allMyPlayersInOpponentBase = allMyPlayers.every(p => p.dataset.base === opponentBase)
+
+    if (allMyPlayersInOpponentBase) congrats(`${ team === "team1" ? "Blue" : "Red" } Team Win!`)        
+
     checkWhosMove(dest)     //  toggle move to the opponent
+}
+
+
+
+function congrats(msg) {
+    setTimeout(() => {
+        alert(`🎉 ${ msg } 🚀`)
+        location.reload()
+    }, 1000)
 }
 
 
@@ -172,14 +188,8 @@ function attack(card, attacked, step) {
         attacked.classList.add("-dead")
         setTimeout(() => attacked.classList = [], 1000)
 
-        if (team1.length === 0) {
-            alert("Red Team Win!")
-            location.reload()
-        }
-        if (team2.length === 0) {
-            alert("Blue Team Win!")
-            location.reload()
-        }
+        if (team1.length === 0) congrats ("Red Team Win!")
+        if (team2.length === 0) congrats ("Blue Team Win!")
         
     } else {
         updateLifes(attacked, leftLifes)
@@ -225,6 +235,13 @@ function PCMakeMove(botTeam) {
 
     botToMove.click()
 
+    // move or attack
+    const isThereOpponentToAttack = findEnemyToAttack(botToMove)
+    const actionOptions = [ isThereOpponentToAttack ? "attack" : "move", "move" ]
+    const action = giveRandom(actionOptions)    //  50/50 chances to attack(it there is someone) or move
+
+    if (isThereOpponentToAttack && action === "attack") return isThereOpponentToAttack.click()
+
     const autoPlay = document.querySelector("[name='autoplay']:checked")
     const dy = autoPlay.id === "team1" ? 6 : -6
 
@@ -235,7 +252,7 @@ function PCMakeMove(botTeam) {
     const cellTo = document.querySelector(`[data-index="${ index }"]`)
 
     const isOccupiedByBot = cellTo?.classList?.contains("card")
-    const whosTeamAmI = team1.includes(botToMove.dataset.name) ? "team1" : "team2"
+    const whosTeamAmI = indetifyMyTeam(botToMove)
     const isOccupiedByMyTeamBot = isOccupiedByBot && cellTo.classList.contains(whosTeamAmI)
 
     if (!cellTo || isOccupiedByMyTeamBot) {
@@ -248,7 +265,62 @@ function PCMakeMove(botTeam) {
         }
     }
 
-    cellTo.click()
+    if (cellTo) cellTo.click()
 
     if (justMovedOpponent) justMovedOpponent.click()
+}
+
+
+function indetifyMyTeam(me) {
+    if (!me) return
+    return me.classList.contains("team1") ? "team1" : "team2"
+}
+
+function indetifyMyOpponentTeam(me) {
+    if (!me) return
+    return me.classList.contains("team1") ? "team2" : "team1"
+}
+
+
+// where to seek whiom to fight
+const attackArea = [
+    { x: -1, y: 0 },
+    { x: -1, y: -1 },
+    { x: 0, y: -1 },
+    { x: 1, y: -1 },
+    { x: 1, y: 0 },
+    { x: 1, y: 1 },
+    { x: 0, y: 1 },
+    { x: -1, y: 1 }
+]
+
+
+function findEnemyToAttack(me) {
+    if (!me) return
+
+    const index = parseInt(me.dataset.index || -1)
+    if (index === -1) return
+
+    const opponentTeam = indetifyMyOpponentTeam(me)
+    if (!opponentTeam) return
+
+    const isThereOpponentToAttack = attackArea.filter(d => {
+        const i = index + d.x + 6*d.y
+        return (i > 0) && document.querySelector(`li.card.${ opponentTeam }[data-index="${ i }"]`)
+    })
+
+    if (isThereOpponentToAttack.length === 0) return false      //  noone nearby
+
+    const d1st = isThereOpponentToAttack[0]
+    const firstOppenentBot = document.querySelector(`li.card.${ opponentTeam }[data-index="${ index + d1st.x + 6*d1st.y }"]`)
+
+    if (isThereOpponentToAttack.length === 1) return firstOppenentBot      //  only one nearby
+
+    // if surrounded by couple of enemies, then pick the weakest one
+    const theWeakest = isThereOpponentToAttack.find(d => {
+        const opponentBot = document.querySelector(`li.card.${ opponentTeam }[data-index="${ index + d.x + 6*d.y }"]`)
+        return parseInt(opponentBot?.dataset.lifes || -100) < parseInt(firstOppenentBot.dataset.lifes)
+    })
+
+    return theWeakest ? document.querySelector(`li.card.${ opponentTeam }[data-index="${ index + theWeakest.x + 6*theWeakest.y }"]`) : firstOppenentBot
 }

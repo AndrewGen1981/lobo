@@ -44,6 +44,13 @@ main ul li {
     transition: 0.25s;
 }
 
+main ul li[data-base="1"] {
+    background: linear-gradient(to bottom, #333, #238b23);
+}
+main ul li[data-base="2"] {
+    background: linear-gradient(to top, #333, #a91c36);
+}
+
 main ul li:not(.card):hover {
     opacity: 0.75;
 }
