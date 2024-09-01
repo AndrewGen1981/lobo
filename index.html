@@ -9,26 +9,35 @@
     <link rel="shortcut icon" href="./pics/easy.webp" type="image/x-icon">
 </head>
 <body>
+
+    <dialog></dialog>
     
     <main>
 
         <aside>
-             <span class="player -active" id="teamAvatar1" data-player="human"></span>
-             <span class="player" id="teamAvatar2" data-player="pc"></span>
+            <span class="player -active" id="teamAvatar1" data-player="human"></span>
+            <p class="text" id="team1Text">move 1 cell</p>
 
-             <nav>
-                <label for="none">
-                    <input type="radio" name="autoplay" id="none">
-                    <span>Off</span>
-                </label>
-                <label for="team1">
-                    <input type="radio" name="autoplay" id="team1">
-                    <span>Blue Team</span>
-                </label>
-                <label for="team2">
-                    <input type="radio" name="autoplay" id="team2" checked>
-                    <span>Red Team</span>
-                </label>
+            <span class="player" id="teamAvatar2" data-player="pc"></span>
+            <p class="text" id="team2Text"></p>
+
+            <nav>
+                <fieldset>
+                    <legend>PC plays</legend>
+
+                    <label for="none">
+                        <input type="radio" name="autoplay" id="none">
+                        <span>Off</span>
+                    </label>
+                    <label for="team1">
+                        <input type="radio" name="autoplay" id="team1">
+                        <span>as Blue</span>
+                    </label>
+                    <label for="team2">
+                        <input type="radio" name="autoplay" id="team2" checked>
+                        <span>as Red</span>
+                    </label>
+                </fieldset>
             </nav>
         </aside>
 
@@ -86,7 +95,6 @@
     </main>
 
     
-
     <script src="./index.js" type="module"></script>
 
 </body>

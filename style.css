@@ -129,7 +129,7 @@ li.card::after {
 
     content: "💀"var(--damage, "0");
     position: absolute;
-    bottom: 0.35rem; right: 0.35rem;
+    bottom: 0.15rem; right: 0.15rem;
 
     display: flex;
     align-items: center;
@@ -148,6 +148,67 @@ li.card::after {
     outline: 2px solid #f6ff00;
     outline-offset: -2px;
 }
+
+
+/* possible directions */
+li:not(.card) {
+    --g1: #6c7015;
+    --g2: #1d481d;
+    --g11: #612127;
+}
+
+li:not(.card):has(+ * + * + * + * + * + * + .card.-active.team1) {
+    background: linear-gradient(-45deg, var(--g1), var(--g2));
+}
+li:not(.card):has(+ * + * + * + * + * + .card.-active.team1) {
+    background: linear-gradient(to top, var(--g1), var(--g2));
+}
+li:not(.card):has(+ * + * + * + * + .card.-active.team1) {
+    background: linear-gradient(45deg, var(--g1), var(--g2));
+}
+li.card.-active.team1 + * + * + * + * + li:not(.card) {
+    background: linear-gradient(215deg, var(--g1), var(--g2));
+}
+li.card.-active.team1 + * + * + * + * + * + li:not(.card) {
+    background: linear-gradient(to bottom, var(--g1), var(--g2));
+}
+li.card.-active.team1 + * + * + * + * + * + * + li:not(.card) {
+    background: linear-gradient(-215deg, var(--g1), var(--g2));
+}
+li:not(.card):has(+ .card.-active.team1) {
+    background: linear-gradient(to left, var(--g1), var(--g2));
+}
+li.card.-active.team1 + li:not(.card) {
+    background: linear-gradient(to right, var(--g1), var(--g2));
+}
+
+li:not(.card):has(+ * + * + * + * + * + * + .card.-active.team2) {
+    background: linear-gradient(-45deg, var(--g11), var(--g2));
+}
+li:not(.card):has(+ * + * + * + * + * + .card.-active.team2) {
+    background: linear-gradient(to top, var(--g11), var(--g2));
+}
+li:not(.card):has(+ * + * + * + * + .card.-active.team2) {
+    background: linear-gradient(45deg, var(--g11), var(--g2));
+}
+li.card.-active.team2 + * + * + * + * + li:not(.card) {
+    background: linear-gradient(215deg, var(--g11), var(--g2));
+}
+li.card.-active.team2 + * + * + * + * + * + li:not(.card) {
+    background: linear-gradient(to bottom, var(--g11), var(--g2));
+}
+li.card.-active.team2 + * + * + * + * + * + * + li:not(.card) {
+    background: linear-gradient(-215deg, var(--g11), var(--g2));
+}
+li:not(.card):has(+ .card.-active.team2) {
+    background: linear-gradient(to left, var(--g11), var(--g2));
+}
+li.card.-active.team2 + li:not(.card) {
+    background: linear-gradient(to right, var(--g11), var(--g2));
+}
+
+
+
 main ul li.-attacked {
     outline: 2px solid crimson;
     outline-offset: -2px;
@@ -172,27 +233,12 @@ main ul li.-dead::after {
 }
 
 
-/* Nav */
-nav {
-    display: grid;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-}
-nav input {
-    accent-color: green;
-    margin-right: 0.2rem;
-}
-nav span {
-    font-size: 0.73rem;
-    color: #ededed;
-}
-
-
 /* aside */
 aside {
-    padding-inline: 1rem;
-    width: 8rem;
+    --w: 8rem;
+
+    padding-inline: 0.5rem;
+    width: var(--w);
 
     display: grid;
     place-content: center;
@@ -214,27 +260,93 @@ aside .player[data-player="pc"] {
     background-image: url("./pics/pc_player.webp");
 }
 
+aside .text {
+    margin-top: -1rem;
 
-@media (width < 850px) {
+    width: 100%;
+    height: 1.5rem;
+    border: 1px solid #dedede;
+    border-radius: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 0.73rem;
+    color: #dedede;
+
+    overflow: hidden;
+}
+
+
+/* Nav */
+nav fieldset {
+    padding-block: 0.5rem;
+    width: calc(0.8 * var(--w));
+
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+
+    border-radius: 5px;
+}
+nav fieldset legend {
+    margin-inline: 0.2rem;
+    padding-inline: 0.3rem;
+
+    font-size: 0.9rem;
+    color:#fff;
+}
+
+nav input {
+    accent-color: green;
+    margin-right: 0.2rem;
+}
+nav span {
+    font-size: 0.73rem;
+    color: #ededed;
+}
+
+
+dialog {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: #333333ad;
+    backdrop-filter: blur(5px);
+
+
+
+    border: none;
+    z-index: 10;
+}
+
+
+
+@media (max-width: 850px) {
     :root {
         font-size: 14px;
     }
 }
-@media (width < 600px) {
+@media (max-width: 600px) {
     li.card::after {
         padding: 0.1rem;
         content: var(--damage, "0");
     }
 }
-@media (width < 400px) {
+@media (max-width: 400px) {
     :root {
         font-size: 10px;
     }
     aside {
-        width: 9rem;
+        --w: 9rem;
     }
 }
-@media (width < 300px) {
+@media (max-width: 300px) {
     :root {
         font-size: 9px;
     }

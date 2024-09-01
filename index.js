@@ -140,20 +140,49 @@ function move(card, dest, step) {
     const allMyPlayers = [...document.querySelectorAll(`li.card.${ team }`)]
     const allMyPlayersInOpponentBase = allMyPlayers.every(p => p.dataset.base === opponentBase)
 
-    if (allMyPlayersInOpponentBase) congrats(`${ team === "team1" ? "Blue" : "Red" } Team Win!`)        
+    if (allMyPlayersInOpponentBase) congrats(`${ team === "team1" ? "Blue" : "Red" } Team Win!`, dest)        
 
+    const phrase = giveRandom(movePhrases)
+    say(dest, phrase.req, phrase.res)
     checkWhosMove(dest)     //  toggle move to the opponent
 }
 
 
+const movePhrases = [
+    {
+        req: "my move",
+        res: "go ahead!"
+    },
+    {
+        req: "my turn",
+        res: "I'm waiting"
+    },
+    {
+        req: "Watch out!",
+        res: "Missed!"
+    },
+    {
+        req: "Hey, bro",
+        res: "What?"
+    },
+    {
+        req: "Looser!",
+        res: "#@$%!"
+    },
+    {
+        req: "What's up?",
+        res: "uppuup!"
+    },
+]
 
-function congrats(msg) {
+
+function congrats(msg, me) {
+    say(me, "I won!", "no...")
     setTimeout(() => {
         alert(`🎉 ${ msg } 🚀`)
         location.reload()
     }, 1000)
 }
-
 
 
 function attack(card, attacked, step) {
@@ -188,19 +217,23 @@ function attack(card, attacked, step) {
         attacked.classList.add("-dead")
         setTimeout(() => attacked.classList = [], 1000)
 
-        if (team1.length === 0) congrats ("Red Team Win!")
-        if (team2.length === 0) congrats ("Blue Team Win!")
+        if (team1.length === 0) congrats ("Red Team Win!", card)
+        if (team2.length === 0) congrats ("Blue Team Win!", card)
         
     } else {
         updateLifes(attacked, leftLifes)
     }
 
+    say(card, "ha-ha, beat you!", "ouch...")
     checkWhosMove(card)     //  toggle move to the opponent
 }
 
 
 const team1Avatar = document.querySelector("#teamAvatar1")
 const team2Avatar = document.querySelector("#teamAvatar2")
+
+const text1 = document.querySelector("#team1Text")
+const text2 = document.querySelector("#team2Text")
 
 
 document.querySelectorAll("[name='autoplay']")
@@ -323,4 +356,17 @@ function findEnemyToAttack(me) {
     })
 
     return theWeakest ? document.querySelector(`li.card.${ opponentTeam }[data-index="${ index + theWeakest.x + 6*theWeakest.y }"]`) : firstOppenentBot
+}
+
+
+function say(card, msg, resp) {
+    if (!text1 || !text2 || !card) return
+
+    if (indetifyMyTeam(card) === "team1") {
+        text1.innerText = msg
+        text2.innerText = resp
+    } else {
+        text2.innerText = msg
+        text1.innerText = resp
+    }
 }
