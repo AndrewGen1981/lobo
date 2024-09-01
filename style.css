@@ -222,6 +222,10 @@ aside .player[data-player="pc"] {
     :root {
         font-size: 10px;
     }
+    li.card::after {
+        padding: 0.1rem 0.15rem;
+        content: var(--damage, "0");
+    }
     aside {
         width: 9rem;
     }
