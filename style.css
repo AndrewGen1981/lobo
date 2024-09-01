@@ -136,7 +136,9 @@ li.card::after {
     justify-content: center;
 
     font-size: 0.85rem;
+    text-wrap: nowrap;
     color: #fff;
+    overflow: hidden;
 
     background-color: #333;
     border-radius: 0.75rem;
