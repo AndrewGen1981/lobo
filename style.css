@@ -157,53 +157,53 @@ li:not(.card) {
     --g11: #612127;
 }
 
-li:not(.card):has(+ * + * + * + * + * + * + .card.-active.team1) {
+li[data-team1-can="true"]:not(.card):has(+ * + * + * + * + * + * + .card.-active) {
     background: linear-gradient(-45deg, var(--g1), var(--g2));
 }
-li:not(.card):has(+ * + * + * + * + * + .card.-active.team1) {
+li[data-team1-can="true"]:not(.card):has(+ * + * + * + * + * + .card.-active) {
     background: linear-gradient(to top, var(--g1), var(--g2));
 }
-li:not(.card):has(+ * + * + * + * + .card.-active.team1) {
+li[data-team1-can="true"]:not(.card):has(+ * + * + * + * + .card.-active) {
     background: linear-gradient(45deg, var(--g1), var(--g2));
 }
-li.card.-active.team1 + * + * + * + * + li:not(.card) {
+li.card.-active + * + * + * + * + li[data-team1-can="true"]:not(.card) {
     background: linear-gradient(215deg, var(--g1), var(--g2));
 }
-li.card.-active.team1 + * + * + * + * + * + li:not(.card) {
+li.card.-active + * + * + * + * + * + li[data-team1-can="true"]:not(.card) {
     background: linear-gradient(to bottom, var(--g1), var(--g2));
 }
-li.card.-active.team1 + * + * + * + * + * + * + li:not(.card) {
+li.card.-active + * + * + * + * + * + * + li[data-team1-can="true"]:not(.card) {
     background: linear-gradient(-215deg, var(--g1), var(--g2));
 }
-li:not(.card):has(+ .card.-active.team1) {
+li[data-team1-can="true"]:not(.card):has(+ .card.-active) {
     background: linear-gradient(to left, var(--g1), var(--g2));
 }
-li.card.-active.team1 + li:not(.card) {
+li.card.-active + li[data-team1-can="true"]:not(.card) {
     background: linear-gradient(to right, var(--g1), var(--g2));
 }
 
-li:not(.card):has(+ * + * + * + * + * + * + .card.-active.team2) {
+li[data-team2-can="true"]:not(.card):has(+ * + * + * + * + * + * + .card.-active.team2) {
     background: linear-gradient(-45deg, var(--g11), var(--g2));
 }
-li:not(.card):has(+ * + * + * + * + * + .card.-active.team2) {
+li[data-team2-can="true"]:not(.card):has(+ * + * + * + * + * + .card.-active.team2) {
     background: linear-gradient(to top, var(--g11), var(--g2));
 }
-li:not(.card):has(+ * + * + * + * + .card.-active.team2) {
+li[data-team2-can="true"]:not(.card):has(+ * + * + * + * + .card.-active.team2) {
     background: linear-gradient(45deg, var(--g11), var(--g2));
 }
-li.card.-active.team2 + * + * + * + * + li:not(.card) {
+li.card.-active.team2 + * + * + * + * + li[data-team2-can="true"]:not(.card) {
     background: linear-gradient(215deg, var(--g11), var(--g2));
 }
-li.card.-active.team2 + * + * + * + * + * + li:not(.card) {
+li.card.-active.team2 + * + * + * + * + * + li[data-team2-can="true"]:not(.card) {
     background: linear-gradient(to bottom, var(--g11), var(--g2));
 }
-li.card.-active.team2 + * + * + * + * + * + * + li:not(.card) {
+li.card.-active.team2 + * + * + * + * + * + * + li[data-team2-can="true"]:not(.card) {
     background: linear-gradient(-215deg, var(--g11), var(--g2));
 }
-li:not(.card):has(+ .card.-active.team2) {
+li[data-team2-can="true"]:not(.card):has(+ .card.-active.team2) {
     background: linear-gradient(to left, var(--g11), var(--g2));
 }
-li.card.-active.team2 + li:not(.card) {
+li.card.-active.team2 + li[data-team2-can="true"]:not(.card) {
     background: linear-gradient(to right, var(--g11), var(--g2));
 }
 

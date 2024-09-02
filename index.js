@@ -23,10 +23,10 @@ let team2 = [
 ]
 
 
-elements[0].classList.add("-active")    //  highlight for 1st move
-
-
 let whosMove = "team1"
+
+const firstToMove = elements[0]
+firstToMove.classList.add("-active")    //  highlight for 1st move
 
 
 elements.forEach((li, index) => {
@@ -48,26 +48,58 @@ elements.forEach((li, index) => {
             if (!li.classList.contains("-active")) {
                 elements.forEach(el => el.classList.remove("-active"))
             }
+
             li.classList.toggle("-active")
+            showAvailable(li)
         } else {        //  сота без картинки
             const card = elements.find(el => el.classList.contains("card") && el.classList.contains("-active"))
-            if (card) move(card, li, 1)
+            if (card) move(card, li)
         }
     })
 
 })
 
 
+showAvailable(firstToMove, whosMove)
 
-function ifInMyArea(card, toCell, step) {
-    // 9 => 8,10   2,3,4    14,15,16
-    const c = parseInt(card.dataset.index)
-    const t = parseInt(toCell.dataset.index)
 
-    const dist = Math.abs(t - c)
-    const diff = Math.abs(dist - (6 * step))
+function getAvailableMatrix(me) {
+    const c = parseInt(me?.dataset?.index || -1)
+    if (c === -1) return []
 
-    return diff === 0  || diff <= step || dist <= step
+    const p = c - 6     //  previouse row
+    const n = c + 6     //  next row
+
+    const lb = ((c - 1) % 6) !== 0      //  left boundary
+    const rb = (c % 6) !== 0      //  right boundary
+
+    return [
+        lb && (p - 1), p, rb && (p + 1),
+        lb && (c - 1), 0, rb && (c + 1),
+        lb && (n - 1), n, rb && (n + 1)
+    ].filter(ac => ac > 0)
+}
+
+
+function showAvailable(me, myTeam) {
+    if (!me) return
+    const availableMatrix = getAvailableMatrix(me)
+    const team = myTeam || indetifyMyTeam(me)
+
+    elements.forEach(el => {
+        const i = parseInt(el?.dataset?.index || -100)
+        el.dataset[`${ team }Can`] = availableMatrix.includes(i)
+    })
+}
+
+
+
+function ifInMyArea(me, to) {
+    const t = parseInt(to?.dataset?.index || -1)
+    if (t === -1) return
+
+    const availableMatrix = getAvailableMatrix(me)
+    return availableMatrix.includes(t)
 }
 
 
@@ -115,9 +147,9 @@ function checkWhosMove(card) {
 }
 
 
-function move(card, dest, step) {
+function move(card, dest) {
     if (!isMyMove(card)) return
-    if (!ifInMyArea(card, dest, step)) return
+    if (!ifInMyArea(card, dest)) return
 
     dest.classList = card.classList
     
@@ -127,11 +159,11 @@ function move(card, dest, step) {
     updateDamage(dest, card.dataset.damage)
     updateDamage(card, "")
 
-    dest.dataset.step = card.dataset.step
-    card.dataset.step = ""
-
     dest.dataset.name = card.dataset.name
-    card.dataset.name = ""
+
+    card.removeAttribute("data-lifes")
+    card.removeAttribute("data-damage")
+    card.removeAttribute("data-name")
 
     card.classList = []
 
@@ -144,6 +176,8 @@ function move(card, dest, step) {
 
     const phrase = giveRandom(movePhrases)
     say(dest, phrase.req, phrase.res)
+
+    showAvailable(dest, team)
     checkWhosMove(dest)     //  toggle move to the opponent
 }
 
@@ -185,9 +219,9 @@ function congrats(msg, me) {
 }
 
 
-function attack(card, attacked, step) {
+function attack(card, attacked) {
     if (!isMyMove(card)) return
-    if (!ifInMyArea(card, attacked, step)) return
+    if (!ifInMyArea(card, attacked)) return
     if (card === attacked) return
 
     // cannot attack your team-mate
@@ -212,7 +246,6 @@ function attack(card, attacked, step) {
 
         updateLifes(attacked, "💀")
         updateDamage(attacked, "")
-        attacked.dataset.step = ""
         
         attacked.classList.add("-dead")
         setTimeout(() => attacked.classList = [], 1000)
@@ -315,7 +348,7 @@ function indetifyMyOpponentTeam(me) {
 }
 
 
-// where to seek whiom to fight
+// where to seek whom to fight with
 const attackArea = [
     { x: -1, y: 0 },
     { x: -1, y: -1 },
