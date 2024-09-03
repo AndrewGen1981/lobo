@@ -319,12 +319,11 @@ function PCMakeMove(botTeam) {
     const justMoved = document.querySelector(`li.-active.${ indetifyMyOpponentTeam(botToMove) }`)
     if (justMoved != botToMove) justMovedOpponent = justMoved
 
-    
-
     // move or attack
     const isThereOpponentToAttack = findEnemyToAttack(botToMove)
-    const actionOptions = [ isThereOpponentToAttack ? "attack" : "move", "move" ]
-    const action = giveRandom(actionOptions)    //  50/50 chances to attack(it there is someone) or move
+    const actionOrMove = isThereOpponentToAttack ? "attack" : "move"
+    const actionOptions = [ actionOrMove, actionOrMove, "move" ]
+    const action = giveRandom(actionOptions)    //  2/3 chances to attack(it there is someone) or move
 
     if (isThereOpponentToAttack && action === "attack") return attack(botToMove, isThereOpponentToAttack)
 
@@ -367,14 +366,9 @@ function indetifyMyOpponentTeam(me) {
 
 // where to seek whom to fight with
 const attackArea = [
-    { x: -1, y: 0 },
-    { x: -1, y: -1 },
-    { x: 0, y: -1 },
-    { x: 1, y: -1 },
-    { x: 1, y: 0 },
-    { x: 1, y: 1 },
-    { x: 0, y: 1 },
-    { x: -1, y: 1 }
+    { x: -1, y: -1 }, { x: 0, y: -1 }, { x: 1, y: -1 },
+    { x: 1, y: 1 }, { x: 0, y: 1 }, { x: -1, y: 1 },
+    { x: -1, y: 0 }, { x: 1, y: 0 }
 ]
 
 
