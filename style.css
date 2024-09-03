@@ -44,6 +44,26 @@ main ul li {
     transition: 0.25s;
 }
 
+
+li.-forbidden {
+    animation: vibrate 0.5s 0.15s;
+}
+
+@keyframes vibrate {
+    0% { transform: rotate(0deg); }
+    10% { transform: rotate(-3deg); }
+    20% { transform: rotate(3deg); }
+    30% { transform: rotate(0deg); }
+    40% { transform: rotate(3deg); }
+    50% { transform: rotate(-3deg); }
+    60% { transform: rotate(0deg); }
+    70% { transform: rotate(-3deg); }
+    80% { transform: rotate(3deg); }
+    90% { transform: rotate(0deg); }
+    100% { transform: rotate(-3deg); }
+  }
+
+
 main ul li[data-base="1"] {
     background: linear-gradient(to bottom, #333, #238b23);
 }

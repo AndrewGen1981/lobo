@@ -29,34 +29,48 @@ const firstToMove = elements[0]
 firstToMove.classList.add("-active")    //  highlight for 1st move
 
 
-elements.forEach((li, index) => {
+function forbiddenAction(cell) {        //  shakes the cell, showing that action is forbidden
+    cell.classList.add("-forbidden")
+    setTimeout(() => cell.classList.remove("-forbidden"), 1000)
+}
 
-    li.dataset.index = index + 1
 
-    li.addEventListener("click", () => {
-        if (li.classList.contains("card")) {        //  сота з картинкою
+function activateBot(me) {
+    if (me.classList.contains("-active")) {
+        me.classList.remove("-active")
+    } else {
+        elements.forEach(el => el.classList.remove("-active"))
+        me.classList.add("-active")
+        showAvailable(me)
+    }
+}
+
+
+function makeAMove(me) {    //  makes move or attacks the opponent
+    if (!me) return
+
+    if (me.classList.contains("card")) {        //  сота з картинкою
             
-            const active = elements.find(el => el.classList.contains("-active"))
-            if (active) {
-                if (active.dataset.name !== li.dataset.name) {
-                    if (ifInMyArea(active, li, 1) && isMyMove(active) ) {
-                        if (attack(active, li, 1)) return
-                    }
-                }
+        const active = elements.find(el => el.classList.contains("-active"))
+        
+        if (active && active !== me) {
+            if (ifInMyArea(active, me) && isMyMove(active) ) {
+                if (attack(active, me)) return
             }
-            
-            if (!li.classList.contains("-active")) {
-                elements.forEach(el => el.classList.remove("-active"))
-            }
-
-            li.classList.toggle("-active")
-            showAvailable(li)
-        } else {        //  сота без картинки
-            const card = elements.find(el => el.classList.contains("card") && el.classList.contains("-active"))
-            if (card) move(card, li)
         }
-    })
+        
+        activateBot(me)
 
+    } else {        //  сота без картинки
+        const activeCard = elements.find(el => el.classList.contains("card") && el.classList.contains("-active"))
+        if (!move(activeCard, me)) forbiddenAction(me)
+    }
+}
+
+
+elements.forEach((li, index) => {
+    li.dataset.index = index + 1
+    li.addEventListener("click", () => makeAMove(li))
 })
 
 
@@ -77,7 +91,7 @@ function getAvailableMatrix(me) {
         lb && (p - 1), p, rb && (p + 1),
         lb && (c - 1), 0, rb && (c + 1),
         lb && (n - 1), n, rb && (n + 1)
-    ].filter(ac => ac > 0)
+    ].filter(ac => ac > 0 && ac <= elements.length)
 }
 
 
@@ -137,7 +151,6 @@ function checkWhosMove(card) {
         if (autoPlay.id === "team1")
             setTimeout(() => PCMakeMove([...document.querySelectorAll("li.card.team1")]), 1000)
 
-
         return true
     }
 
@@ -148,6 +161,7 @@ function checkWhosMove(card) {
 
 
 function move(card, dest) {
+    if (!card || !dest) return
     if (!isMyMove(card)) return
     if (!ifInMyArea(card, dest)) return
 
@@ -179,6 +193,8 @@ function move(card, dest) {
 
     showAvailable(dest, team)
     checkWhosMove(dest)     //  toggle move to the opponent
+
+    return true
 }
 
 
@@ -220,9 +236,11 @@ function congrats(msg, me) {
 
 
 function attack(card, attacked) {
+    if (!card || !attacked) return
+    if (card === attacked) return
+
     if (!isMyMove(card)) return
     if (!ifInMyArea(card, attacked)) return
-    if (card === attacked) return
 
     // cannot attack your team-mate
     if (team1.includes(card.dataset.name) && team1.includes(attacked.dataset.name)) return
@@ -259,6 +277,8 @@ function attack(card, attacked) {
 
     say(card, "ha-ha, beat you!", "ouch...")
     checkWhosMove(card)     //  toggle move to the opponent
+
+    return true
 }
 
 
@@ -296,32 +316,28 @@ function PCMakeMove(botTeam) {
     if (!botToMove) return
     if (!isMyMove(botToMove)) return
 
-    const justMoved = document.querySelector("li.-active ")
+    const justMoved = document.querySelector(`li.-active.${ indetifyMyOpponentTeam(botToMove) }`)
     if (justMoved != botToMove) justMovedOpponent = justMoved
 
-    botToMove.click()
+    
 
     // move or attack
     const isThereOpponentToAttack = findEnemyToAttack(botToMove)
     const actionOptions = [ isThereOpponentToAttack ? "attack" : "move", "move" ]
     const action = giveRandom(actionOptions)    //  50/50 chances to attack(it there is someone) or move
 
-    if (isThereOpponentToAttack && action === "attack") return isThereOpponentToAttack.click()
+    if (isThereOpponentToAttack && action === "attack") return attack(botToMove, isThereOpponentToAttack)
 
     const autoPlay = document.querySelector("[name='autoplay']:checked")
-    const dy = autoPlay.id === "team1" ? 6 : -6
 
-    const deltaX = [-1, 0, 1, 0]
-    const dx = giveRandom(deltaX)
+    const i = parseInt(botToMove.dataset.index, 0)
+    const team = indetifyMyTeam(botToMove)
 
-    const index = parseInt(botToMove.dataset.index) + dy +dx
-    const cellTo = document.querySelector(`[data-index="${ index }"]`)
+    const matrix = getAvailableMatrix(botToMove)
+    .filter(m => autoPlay.id === "team1" ? (m - i) > 4 : (i - m) > 4)
+    .filter(m => !elements[m-1].classList.contains(team))
 
-    const isOccupiedByBot = cellTo?.classList?.contains("card")
-    const whosTeamAmI = indetifyMyTeam(botToMove)
-    const isOccupiedByMyTeamBot = isOccupiedByBot && cellTo.classList.contains(whosTeamAmI)
-
-    if (!cellTo || isOccupiedByMyTeamBot) {
+    if (matrix?.length === 0) {
         if (PCAttemptsToMove < 5) {
             PCAttemptsToMove ++
             PCMakeMove(botTeam)
@@ -331,9 +347,10 @@ function PCMakeMove(botTeam) {
         }
     }
 
-    if (cellTo) cellTo.click()
+    activateBot(botToMove)
+    makeAMove(elements[giveRandom(matrix) - 1])
 
-    if (justMovedOpponent) justMovedOpponent.click()
+    if (justMovedOpponent) activateBot(justMovedOpponent)
 }
 
 
