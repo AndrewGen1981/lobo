@@ -96,10 +96,12 @@ function init(cell, bot, team) {
 }
 
 function updateLifes(card, lifes) {
+    if (!card) return
     card.dataset.lifes = lifes
     card.style.setProperty("--lifes", `"${ lifes }"`)
 }
 function updateDamage(card, damage) {
+    if (!card) return
     card.dataset.damage = damage
     card.style.setProperty("--damage", `"${ damage }"`)
 }

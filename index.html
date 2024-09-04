@@ -6,14 +6,33 @@
     <title>Lobotomy</title>
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dialog.css" loading="lazy">
+
     <link rel="shortcut icon" href="./pics/easy.webp" type="image/x-icon">
 </head>
 <body>
 
-    <dialog></dialog>
+    <dialog id="dialog">
+
+        <h2>Upgrades</h2>
+
+        <ul class="upgradedBot">
+            <li class="card"></li>
+        </ul>
+
+        <ul class="upgrades">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+
+        <button type="button" onclick="dialog.close()">Close</button>
+    </dialog>
     
     <main>
-
         <aside>
             <span class="player -active" id="teamAvatar1" data-player="human"></span>
             <p class="text" id="team1Text">move 1 cell</p>
@@ -91,11 +110,10 @@
             <li data-base="2"></li>
             <li data-base="2"></li>
         </ul>
-
     </main>
 
-    
     <script src="./index.js" type="module"></script>
+    <script src="./dialog.js" type="module"></script>
 
 </body>
 </html>

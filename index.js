@@ -1,4 +1,5 @@
 import { bots, init, updateLifes, updateDamage, giveRandom } from "./bots.js"
+import { updateDialog } from "./dialog.js"
 
 
 const elements = [...document.querySelectorAll("main ul li")]
@@ -270,6 +271,14 @@ function attack(card, attacked) {
 
         if (team1.length === 0) congrats ("Red Team Win!", card)
         if (team2.length === 0) congrats ("Blue Team Win!", card)
+
+        // upgrades
+        const autoPlay = document.querySelector("[name='autoplay']:checked")
+
+        if (team1.length && team2.length && autoPlay.id != whosMove) {
+            if (Math.random() > 0.5)
+                setTimeout(() => updateDialog(card), 850)
+        }
         
     } else {
         updateLifes(attacked, leftLifes)
