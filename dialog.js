@@ -8,8 +8,6 @@ const upgradeCards = dialog.querySelectorAll("ul.upgrades li")
 
 
 upgradeCards.forEach(upgradeCard => upgradeCard.addEventListener("click", () => {
-    console.log(upgradeCard)
-
     const upLifes = parseInt(upgradeCard.dataset.lifes || 0)
     const upDamage = parseInt(upgradeCard.dataset.damage || 0)
 
@@ -18,8 +16,8 @@ upgradeCards.forEach(upgradeCard => upgradeCard.addEventListener("click", () => 
     upgradeCard.removeAttribute("data-lifes")
     upgradeCard.removeAttribute("data-damage")
 
-    const lifesHTML = upLifes ? upLifes > 0 ? `<p>Lifes +${ upLifes }</p>` : `<p class="minus">Lifes -${ upLifes }</p>` : ""
-    const damageHTML = upDamage ? upDamage > 0 ? `<p>Damage +${ upDamage }</p>` : `<p class="minus">Damage -${ upDamage }</p>` : ""
+    const lifesHTML = upLifes ? upLifes > 0 ? `<p>Lifes ❤️ +${ upLifes }</p>` : `<p class="minus">Lifes ❤️ ${ upLifes }</p>` : ""
+    const damageHTML = upDamage ? upDamage > 0 ? `<p>Damage 💀 +${ upDamage }</p>` : `<p class="minus">Damage 💀 ${ upDamage }</p>` : ""
 
     upgradeCard.classList.add("-flip")
     setTimeout(() => {
@@ -34,8 +32,8 @@ upgradeCards.forEach(upgradeCard => upgradeCard.addEventListener("click", () => 
         const newBotLifes = botLifes + upLifes
         const newBotDamage = botDamage + upDamage
 
-        const lifesToSet = newBotLifes > 0 ? newBotLifes : 1
-        const damageToSet = newBotDamage > 0 ? newBotDamage : 1
+        const lifesToSet = newBotLifes > 0 ? newBotLifes : 0
+        const damageToSet = newBotDamage > 0 ? newBotDamage : 0
 
         updateLifes(bot, lifesToSet)
         updateDamage(bot, damageToSet)
