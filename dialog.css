@@ -89,7 +89,7 @@ dialog[open] ul.upgrades li {
     place-items: center;
     gap: 3rem;
 
-    background-color: #fff;
+    /* background-color: #fff; */
 
     background-image: var(--sheet);
     background-position: center;
