@@ -66,7 +66,7 @@ upgradeCards.forEach(upgradeCard => upgradeCard.addEventListener("click", () => 
             upCard.classList = []
             upCard.innerHTML = ""
         })
-    }, 2000)
+    }, 3000)
 
 }))
 

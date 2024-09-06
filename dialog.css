@@ -30,16 +30,7 @@ dialog[open] {
     z-index: 10;
 }
 
-dialog[open] h2 {
-    color: #ffffff9e;
-    text-shadow: 0 3px 0.7rem #000;
-}
-
-dialog[open] ul.upgradedBot {
-    list-style: none;
-}
-
-dialog[open] li.card {
+dialog[open] fieldset {
     position: relative;
     
     width: 8rem;
@@ -47,6 +38,46 @@ dialog[open] li.card {
 
     border: 2px solid #272727;
     border-radius: 7px;
+}
+dialog[open] fieldset legend {
+    margin-inline: auto;
+    padding-inline: 1rem;
+    color: #ffffff9e;
+}
+dialog[open] fieldset {
+    position: relative;
+    
+    width: 8rem;
+    aspect-ratio: 1/1.6;
+
+    border: 2px solid #272727;
+    border-radius: 7px;
+}
+dialog[open] fieldset li.card {
+    margin-top: -0.5rem;
+}
+dialog[open] fieldset button {
+    position: absolute;
+
+    top: 0; right: 0;
+    width: 45px; aspect-ratio: 1;
+    transform: translate(35%, -35%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    border: 1px solid #333;
+
+    z-index: 100;
+}
+dialog[open] fieldset button:is(:hover, :focus-visible) {
+    background-color: #fcfc64;
+}
+
+dialog[open] ul.upgradedBot {
+    list-style: none;
 }
 
 dialog[open] li.card.updated-lifes::before,
@@ -165,11 +196,6 @@ dialog[open] ul.upgrades li.-hidden {
     z-index: -1;
 }
 
-
-dialog[open] button {
-    padding: 0.25rem 0.5rem;
-    font-size: 1.3rem;
-}
 
 @media (max-width: 600px) {
     dialog[open] li.card {
