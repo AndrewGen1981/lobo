@@ -46,10 +46,6 @@ dialog[open] fieldset legend {
 }
 dialog[open] fieldset {
     position: relative;
-    
-    width: 8rem;
-    aspect-ratio: 1/1.6;
-
     border: 2px solid #272727;
     border-radius: 7px;
 }
@@ -71,6 +67,11 @@ dialog[open] fieldset button {
 }
 dialog[open] fieldset button:is(:hover, :focus-visible) {
     background-color: #fcfc64;
+}
+
+dialog[open] fieldset li.card {
+    width: 8rem;
+    aspect-ratio: 1/1.6;
 }
 
 dialog[open] ul.upgradedBot {
@@ -195,8 +196,8 @@ dialog[open] ul.upgrades li.-hidden {
 
 
 @media (max-width: 600px) {
-    dialog[open] li.card {
-        width: 12rem;
+    dialog[open] fieldset li.card {
+        width: 10rem;
     }
     dialog[open] ul.upgrades {
         grid-auto-flow: row;
