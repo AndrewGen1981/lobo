@@ -30,6 +30,11 @@ const firstToMove = elements[0]
 firstToMove.classList.add("-active")    //  highlight for 1st move
 
 
+setTimeout(() => {
+    updateDialog(firstToMove)
+}, 1000)
+
+
 function forbiddenAction(cell) {        //  shakes the cell, showing that action is forbidden
     cell.classList.add("-forbidden")
     setTimeout(() => cell.classList.remove("-forbidden"), 1000)

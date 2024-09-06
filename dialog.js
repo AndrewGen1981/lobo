@@ -16,8 +16,8 @@ upgradeCards.forEach(upgradeCard => upgradeCard.addEventListener("click", () => 
     upgradeCard.removeAttribute("data-lifes")
     upgradeCard.removeAttribute("data-damage")
 
-    const lifesHTML = upLifes ? upLifes > 0 ? `<p>Lifes ❤️ +${ upLifes }</p>` : `<p class="minus">Lifes ❤️ ${ upLifes }</p>` : ""
-    const damageHTML = upDamage ? upDamage > 0 ? `<p>Damage 💀 +${ upDamage }</p>` : `<p class="minus">Damage 💀 ${ upDamage }</p>` : ""
+    const lifesHTML = upLifes ? upLifes > 0 ? `<p class="lifes">+${ upLifes }</p>` : `<p class="lifes minus">${ upLifes }</p>` : ""
+    const damageHTML = upDamage ? upDamage > 0 ? `<p class="damage">+${ upDamage }</p>` : `<p class="damage minus">${ upDamage }</p>` : ""
 
     upgradeCard.classList.add("-flip")
     setTimeout(() => {
@@ -49,21 +49,21 @@ upgradeCards.forEach(upgradeCard => upgradeCard.addEventListener("click", () => 
         })
     }, 350)
 
-    setTimeout(() => {
-        dialog.close()
+    // setTimeout(() => {
+    //     dialog.close()
 
-        bot.classList = []
-        bot.removeAttribute("data-name")
-        bot.removeAttribute("data-lifes")
-        bot.removeAttribute("data-damage")
-        bot.style.removeProperty("--lifes")
-        bot.style.removeProperty("--damage")
+    //     bot.classList = []
+    //     bot.removeAttribute("data-name")
+    //     bot.removeAttribute("data-lifes")
+    //     bot.removeAttribute("data-damage")
+    //     bot.style.removeProperty("--lifes")
+    //     bot.style.removeProperty("--damage")
 
-        upgradeCards.forEach(upCard => {
-            upCard.classList = []
-            upCard.innerHTML = ""
-        })
-    }, 2000)
+    //     upgradeCards.forEach(upCard => {
+    //         upCard.classList = []
+    //         upCard.innerHTML = ""
+    //     })
+    // }, 2000)
 
 }))
 

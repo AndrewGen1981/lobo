@@ -41,8 +41,12 @@ dialog[open] ul.upgradedBot {
 
 dialog[open] li.card {
     position: relative;
+    
     width: 8rem;
     aspect-ratio: 1/1.6;
+
+    border: 2px solid #272727;
+    border-radius: 7px;
 }
 
 dialog[open] ul.upgrades {
@@ -56,7 +60,7 @@ dialog[open] ul.upgrades {
     gap: 0.7rem;
 }
 
-dialog ul.upgrades li {
+dialog[open] ul.upgrades li {
     --sheet: url("/pics/sheet1.jpg");
 }
 
@@ -67,6 +71,7 @@ dialog[open] ul.upgrades li {
     display: grid;
     place-content: center;
     place-items: center;
+    gap: 3rem;
 
     background-color: #fff;
 
@@ -79,41 +84,71 @@ dialog[open] ul.upgrades li {
     border-radius: 5px;
     cursor: pointer;
 
-    /* transition: opacity 0.25s; */
+    perspective: 250px;
+    transform-style: preserve-3d;
 
-    transform: perspective(1000px) rotateX(0deg);
-    transition: .5s;
+    -webkit-backface-visibility: hidden; /* Safari */
     backface-visibility: hidden;
+
+    transition: .5s;
 }
 
 
-dialog[open] ul.upgrades li:hover {
-    transform: translateY(-0.5rem);
+dialog[open] ul.upgrades li:not(.-flipped):hover {
+    translate: 0 -0.5rem;
 }
 dialog[open] ul.upgrades:has(li:hover):not(:has(.-hidden)) li:not(:hover) {
     opacity: 0.55;
 }
 
 dialog[open] ul.upgrades li.-flip {
-    transform: perspective(1000px) rotateY(-190deg);
+    transform: rotateY(-180deg);
 }
 dialog ul.upgrades li.-flipped {
-    /* --sheet: none; */
     --sheet: url("/pics/sheet2.jpg");
+}
+dialog ul.upgrades li:has(.minus).-flipped {
+    --sheet: url("/pics/sheet4.jpg");
 }
 
 dialog[open] ul.upgrades li > * {
-    font-size: 1.15rem;
-    font-weight: bolder;
-    color: #515151;
+    position: relative;
+    font-size: 1.2rem;
+    text-shadow: 0 0 7px #aeb400;
 }
 dialog[open] ul.upgrades li > .minus {
     color: crimson;
+    text-shadow: 0 0 7px #fff;
+}
+
+dialog[open] ul.upgrades li > *::before {
+    position: absolute;
+    --x: 35%; left: 50%;
+
+    font-size: 350%;
+    font-weight: bolder;
+    opacity: 0.35;
+
+    z-index: -1;
+}
+dialog[open] ul.upgrades li:has(.minus) > *::before {
+    opacity: 0.2;
+}
+
+dialog[open] ul.upgrades li > *.lifes::before {
+    content: "❤️";
+    top: 0;
+    transform: translate(-50%, calc(-1 * var(--x)));
+}
+dialog[open] ul.upgrades li > *.damage::before {
+    content: "💀";
+    bottom: 0;
+    transform: translate(-50%, var(--x));
 }
 
 dialog[open] ul.upgrades li.-hidden {
-    /* display: none; */
-    opacity: 0.1;
+    opacity: 0.3;
+    scale: 0.85;
     z-index: -1;
 }
 
@@ -133,5 +168,11 @@ dialog[open] button {
     }
     dialog[open] ul.upgrades li {
         max-width: 12rem;
+    }
+    dialog[open] ul.upgrades li > * {
+        font-size: 1.35rem;
+    }
+    dialog[open] ul.upgrades li > *::before {
+        font-size: 450%;
     }
 }
