@@ -86,9 +86,9 @@ dialog[open] ul.upgrades li {
     place-items: center;
     gap: 3rem;
 
-    /* background-color: #fff; */
+    background-color: #fff;
 
-    background-image: url("/pics/sheet1.jpg");
+    background-image: url("./pics/sheet1.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -118,10 +118,10 @@ dialog[open] ul.upgrades li.-flip {
     transform: rotateY(-180deg);
 }
 dialog ul.upgrades li.-flipped {
-    background-image: url("/pics/sheet2.jpg");
+    background-image: url("./pics/sheet2.jpg");
 }
 dialog ul.upgrades li:has(.minus).-flipped {
-    background-image: url("/pics/sheet4.jpg");
+    background-image: url("./pics/sheet4.jpg");
 }
 
 dialog[open] ul.upgrades li > * {
