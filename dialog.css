@@ -53,9 +53,6 @@ dialog[open] fieldset {
     border: 2px solid #272727;
     border-radius: 7px;
 }
-dialog[open] fieldset li.card {
-    margin-top: -0.5rem;
-}
 dialog[open] fieldset button {
     position: absolute;
 
