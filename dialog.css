@@ -49,6 +49,22 @@ dialog[open] li.card {
     border-radius: 7px;
 }
 
+dialog[open] li.card.updated-lifes::before,
+dialog[open] li.card.updated-damage::after {
+    animation: spot .2s .7s 2 alternate;
+}
+
+@keyframes spot {
+    to {
+        font-size: 1.5rem;
+        color: #fcfc64;
+        text-shadow: 0 0 5px #000;
+    }
+}
+
+
+
+
 dialog[open] ul.upgrades {
     margin-block: 0.5rem;
     width: min(50rem, 90%);

@@ -32,6 +32,9 @@ upgradeCards.forEach(upgradeCard => upgradeCard.addEventListener("click", () => 
         const newBotLifes = botLifes + upLifes
         const newBotDamage = botDamage + upDamage
 
+        bot.classList.toggle("updated-lifes", botLifes != newBotLifes)
+        bot.classList.toggle("updated-damage", botDamage != newBotDamage)
+
         const lifesToSet = newBotLifes > 0 ? newBotLifes : 0
         const damageToSet = newBotDamage > 0 ? newBotDamage : 0
 
